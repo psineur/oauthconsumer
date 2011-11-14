@@ -27,6 +27,13 @@
 #import "OAMutableURLRequest.h"
 #import "OAServiceTicket.h"
 
+@protocol OADataFetcherDelegate <NSObject>
+
+- (void)ticket:(OAServiceTicket *)ticket didFinishWithData:(NSData *)data;
+- (void)ticket:(OAServiceTicket *)ticket didFailWithError:(NSError *) error;
+
+@end
+
 
 @interface OADataFetcher : NSObject {
 @private
