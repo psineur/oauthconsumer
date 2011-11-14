@@ -41,11 +41,9 @@
     NSURLResponse *response;
     NSURLConnection *connection;
     NSMutableData *responseData;
-    id delegate;
-    SEL didFinishSelector;
-    SEL didFailSelector;
+    id<OADataFetcherDelegate> delegate;
 }
 
-- (void)fetchDataWithRequest:(OAMutableURLRequest *)aRequest delegate:(id)aDelegate didFinishSelector:(SEL)finishSelector didFailSelector:(SEL)failSelector;
+- (void)fetchDataWithRequest:(OAMutableURLRequest *)aRequest delegate:(id<OADataFetcherDelegate>)aDelegate;
 
 @end

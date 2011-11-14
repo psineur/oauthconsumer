@@ -57,7 +57,7 @@
 																  data:responseData
 															didSucceed:NO];
 
-	[delegate performSelector:didFailSelector withObject:ticket withObject:error];
+	[delegate ticket:ticket didFailWithError:error];
 	[ticket release];
 }
 
@@ -71,16 +71,14 @@
 																  data:responseData
 															didSucceed:[(NSHTTPURLResponse *)response statusCode] < 400];
 
-	[delegate performSelector:didFinishSelector withObject:ticket withObject:responseData];
+	[delegate ticket:ticket didFinishWithData:responseData];
 	[ticket release];
 }
 
-- (void)fetchDataWithRequest:(OAMutableURLRequest *)aRequest delegate:(id)aDelegate didFinishSelector:(SEL)finishSelector didFailSelector:(SEL)failSelector {
+- (void)fetchDataWithRequest:(OAMutableURLRequest *)aRequest delegate:(id)aDelegate {
 	[request release];
 	request = [aRequest retain];
     delegate = aDelegate;
-    didFinishSelector = finishSelector;
-    didFailSelector = failSelector;
     
     [request prepare];
 
