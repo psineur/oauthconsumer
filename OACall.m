@@ -14,10 +14,10 @@
 #import "OAMutableURLRequest.h"
 #import "OACall.h"
 
-@interface OACall (Private)
+@interface OACall (Private) <OADataFetcherDelegate>
 
-- (void)callFinished:(OAServiceTicket *)ticket withData:(NSData *)data;
-- (void)callFailed:(OAServiceTicket *)ticket withError:(NSError *)error;
+- (void)ticket:(OAServiceTicket *)ticket didFinishWithData:(NSData *)data;
+- (void)ticket:(OAServiceTicket *)ticket didFailWithError:(NSError *)error;
 
 @end
 
@@ -93,7 +93,7 @@
 	[super dealloc];
 }
 
-- (void)callFailed:(OAServiceTicket *)aTicket withError:(NSError *)error {
+- (void)ticket:(OAServiceTicket *) aTicket didFailWithError:(NSError *) error{
 	NSLog(@"error body: %@", aTicket.body);
 	self.ticket = aTicket;
 	[aTicket release];
@@ -105,7 +105,7 @@
 	}
 }
 
-- (void)callFinished:(OAServiceTicket *)aTicket withData:(NSData *)data {
+- (void)ticket:(OAServiceTicket *)aTicket didFinishWithData:(NSData *)data{
 	self.ticket = aTicket;
 	[aTicket release];
 	if (ticket.didSucceed) {
@@ -113,7 +113,7 @@
 		[delegate performSelector:finishedSelector withObject:self withObject:ticket.body];
 	} else {
 //		NSLog(@"Failed call body: %@", ticket.body);
-		[self callFailed:[ticket retain] withError:nil];
+        [self ticket:[ticket retain] didFailWithError:nil];
 	}
 }
 
@@ -146,10 +146,9 @@
 //	}
 	fetcher = [[OADataFetcher alloc] init];
 	[fetcher fetchDataWithRequest:request
-						 delegate:self
-				didFinishSelector:@selector(callFinished:withData:)
-				  didFailSelector:@selector(callFailed:withError:)];
+						 delegate:self];
 }
+
 
 /*- (BOOL)isEqual:(id)object {
 	if ([object isKindOfClass:[self class]]) {
