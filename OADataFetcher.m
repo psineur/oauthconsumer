@@ -66,7 +66,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	OAServiceTicket *ticket = [[OAServiceTicket alloc] initWithRequest:request
+	OAServiceTicket *ticket = [[OAServiceTicket alloc] initWithRequest: (OAMutableURLRequest *)request
 															  response:response
 																  data:responseData
 															didSucceed:[(NSHTTPURLResponse *)response statusCode] < 400];
@@ -75,12 +75,15 @@
 	[ticket release];
 }
 
-- (void)fetchDataWithRequest:(OAMutableURLRequest *)aRequest delegate:(id)aDelegate {
+- (void)fetchDataWithRequest:(NSURLRequest *)aRequest delegate:(id)aDelegate {
 	[request release];
 	request = [aRequest retain];
     delegate = aDelegate;
     
-    [request prepare];
+    if ([aRequest isKindOfClass: [OAMutableURLRequest class]])
+    {
+        [(OAMutableURLRequest *)request prepare];
+    }
 
 	connection = [[NSURLConnection alloc] initWithRequest:aRequest delegate:self];
 }
