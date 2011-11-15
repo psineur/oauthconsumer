@@ -30,6 +30,7 @@
 	NSString *key;
 	NSString *secret;
 	NSString *session;
+    NSString *verifier;
 	NSNumber *duration;
 	NSMutableDictionary *attributes;
 	NSDate *created;
