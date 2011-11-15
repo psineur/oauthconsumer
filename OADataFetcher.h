@@ -42,7 +42,11 @@
     NSURLConnection *connection;
     NSMutableData *responseData;
     id<OADataFetcherDelegate> delegate;
+    
+    BOOL _disableRedirects;
 }
+
+@property (readwrite, assign) BOOL disableRedirects;
 
 - (void)fetchDataWithRequest:(NSURLRequest *)aRequest delegate:(id<OADataFetcherDelegate>)aDelegate;
 

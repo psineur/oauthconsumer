@@ -26,8 +26,9 @@
 
 #import "OADataFetcher.h"
 
-
 @implementation OADataFetcher
+
+@synthesize disableRedirects = _disableRedirects;
 
 - (id)init {
 	if ((self = [super init])) {
@@ -45,15 +46,10 @@
 }
 
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)aRequest redirectResponse:(NSURLResponse *)aResponse
-{
-    NSLog(@"Gonna Send Request = %@", [aRequest allHTTPHeaderFields]);
-    
-    NSDictionary *allHeaderFields = nil;
-    if ([aResponse isKindOfClass:[NSHTTPURLResponse class]])
-    {
-        allHeaderFields = [(NSHTTPURLResponse *)aResponse allHeaderFields];
-    }
-    NSLog(@"Response = %@", allHeaderFields);
+{    
+    // Disable redirects if needed.
+    if (_disableRedirects && aResponse)
+        return nil;
     
     return aRequest;
 }
