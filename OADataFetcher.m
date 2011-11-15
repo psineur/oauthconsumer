@@ -44,6 +44,20 @@
 	[super dealloc];
 }
 
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)aRequest redirectResponse:(NSURLResponse *)aResponse
+{
+    NSLog(@"Gonna Send Request = %@", [aRequest allHTTPHeaderFields]);
+    
+    NSDictionary *allHeaderFields = nil;
+    if ([aResponse isKindOfClass:[NSHTTPURLResponse class]])
+    {
+        allHeaderFields = [(NSHTTPURLResponse *)aResponse allHeaderFields];
+    }
+    NSLog(@"Response = %@", allHeaderFields);
+    
+    return aRequest;
+}
+
 /* Protocol for async URL loading */
 - (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)aResponse {
 	[response release];
