@@ -47,6 +47,7 @@
 }
 
 @property (readwrite, assign) BOOL disableRedirects;
+@property (readwrite, assign) id <OADataFetcherDelegate> delegate;
 
 - (void)fetchDataWithRequest:(NSURLRequest *)aRequest delegate:(id<OADataFetcherDelegate>)aDelegate;
 

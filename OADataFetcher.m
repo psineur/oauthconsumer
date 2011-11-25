@@ -29,6 +29,7 @@
 @implementation OADataFetcher
 
 @synthesize disableRedirects = _disableRedirects;
+@synthesize delegate = delegate;
 
 - (id)init {
 	if ((self = [super init])) {
