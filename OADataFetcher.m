@@ -38,6 +38,7 @@
 }
 
 - (void)dealloc {
+    delegate = nil;
 	[connection release];
 	[response release];
 	[responseData release];
